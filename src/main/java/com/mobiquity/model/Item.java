@@ -5,6 +5,12 @@ public class Item {
 	private float weight;
 	private float price;
 
+	public Item(int index, float weight, float price) {
+		this.index = index;
+		this.weight = weight;
+		this.price = price;
+	}
+
 	public int getIndex() {
 		return index;
 	}

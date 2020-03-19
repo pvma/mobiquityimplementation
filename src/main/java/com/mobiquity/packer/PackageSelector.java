@@ -18,7 +18,7 @@ public class PackageSelector {
 
 	public static String getPackage(PackageLine packageLine) throws APIIndexException {
 		PackageSelector.maxAllowedWeigth = preparePackageMaxWeight(packageLine); // Constrain 1
-		return getPriciestPossiblePackage(packageLine.getPackages());
+		return getPriciestPossiblePackage(packageLine.getItems());
 	}
 
 	/**	 

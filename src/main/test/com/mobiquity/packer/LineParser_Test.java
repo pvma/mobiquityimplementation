@@ -38,7 +38,7 @@ public class LineParser_Test {
 					.parsePackageLine("75 : (1,85.31,�29) (2,14.55,�74) (3,3.98,�16) (4,26.24,�55) (5,63.69,�52)");
 
 			assertEquals(75.0, line.getMaxWeightAllowed(), 0.0f);
-			assertEquals(5, line.getPackages().size());
+			assertEquals(5, line.getItems().size());
 
 		} catch (APIWeightException e) {
 			fail("Wrong weight was not catched!");

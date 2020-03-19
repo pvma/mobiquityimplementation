@@ -20,7 +20,7 @@ public class LineParser {
 	// Return a wrapper object of the max weight allowed plus the list of items to be processed
 	public static PackageLine parsePackageLine(String line) throws APIWeightException {
 		float maxPackageWeithAllowed = 0;
-		List<Item> packages = new ArrayList<Item>();
+		List<Item> items = new ArrayList<Item>();
 		if (StringUtils.isNotBlank(line)) {
 			String[] parts = line.split(":");
 			if (parts.length > 1) {
@@ -29,14 +29,12 @@ public class LineParser {
 				} catch (NumberFormatException e) {
 					throw new APIWeightException(e.getLocalizedMessage());
 				}
-				packages = LineParser.splitLinePackages(parts[1]);
+				items = LineParser.splitLinePackages(parts[1]);
 			}
 		}
 		logger.debug("maxPackageWeithAllowed: " + maxPackageWeithAllowed);
-		logger.debug("packages.size(): " + packages.size());
-		PackageLine packageLine = new PackageLine();
-		packageLine.setMaxWeightAllowed(maxPackageWeithAllowed);
-		packageLine.setPackages(packages);
+		logger.debug("items.size(): " + items.size());
+		PackageLine packageLine = new PackageLine(maxPackageWeithAllowed, items);
 		return packageLine;
 	}
 
@@ -46,16 +44,12 @@ public class LineParser {
 		return Stream.of(str.trim().split(" ")).map(elem -> {
 			elem = elem.replace("(", "").replace(")", "");
 			String[] values = elem.split(",");
-			Item obj = new Item();
 			try {
-				obj.setIndex(Integer.parseInt(values[0]));
-				obj.setWeight(Float.parseFloat(values[1]));
-				obj.setPrice(Float.parseFloat(values[2].substring(1)));
+				return new Item(Integer.parseInt(values[0]), Float.parseFloat(values[1]), Float.parseFloat(values[2].substring(1)));
 			} catch (Throwable e) {
 				logger.warn("Error Parsing Item = |" + str + "|, item will be disregarded");
-				obj = null;
+				return null;
 			}
-			return obj;
 		}).collect(Collectors.toList());
 	}
 
