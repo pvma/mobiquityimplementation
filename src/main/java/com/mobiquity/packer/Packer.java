@@ -16,6 +16,7 @@ import org.apache.log4j.PropertyConfigurator;
 import com.mobiquity.constants.PropertyConstants;
 import com.mobiquity.exception.APIException;
 import com.mobiquity.exception.APIIndexException;
+import com.mobiquity.exception.APIWeightException;
 import com.mobiquity.model.PackageLine;
 
 public class Packer {
@@ -23,7 +24,7 @@ public class Packer {
 	static final Logger logger = Logger.getLogger(Packer.class);
 
 	private Packer() {
-		
+
 	}
 
 	public static String pack(String filePath) throws APIException {
@@ -33,25 +34,31 @@ public class Packer {
 		try {
 			lines = Files.readAllLines(Paths.get(filePath), StandardCharsets.UTF_8);
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new APIException("Error reading file. Check if it exist or file is not UTF-8 encoded");
 		}
 		StringBuilder sb = new StringBuilder();
 		if (lines.size() > 0) {
 			for (String line : lines) {
-				PackageLine packageLine = LineParser.parsePackageLine(line);
-				// Your API should be resilient to move along and optimized not to continue wrong lines
+				PackageLine packageLine = null;
+				
 				try {
+					packageLine = LineParser.parsePackageLine(line);
 					sb.append(PackageSelector.getPackage(packageLine));
 					sb.append(PropertyConstants.NEW_LINE);
-				} catch (APIIndexException e) {
+				} catch (APIWeightException | APIIndexException e) {
+					// APIWeightException : if max weight is wrong, continue on next line
+					// APIIndexException : if index of an item is wrong continue on next line
 					logger.warn(e);
+				} catch (Throwable e) {
+					// Any other exception, stop and throw as APIException
+					throw new APIException(e.getLocalizedMessage());
 				}
 			}
 		}
 		logger.info(sb);
 		return sb.toString();
 	}
-	
+
 	public static void main(String args[]) {
 		try {
 			Packer.pack(args[1]);
@@ -59,7 +66,7 @@ public class Packer {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private static void initJunit() {
 		try {
 			Properties props = new Properties();

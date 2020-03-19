@@ -21,6 +21,28 @@ public class PackageSelector {
 		return getPriciestPossiblePackage(packageLine.getPackages());
 	}
 
+	/**	 
+	 * @param list
+	 * @return Item list e.g. x,x,xx
+	 * @throws APIIndexException
+	 * <br/>
+	 * Logic:<br/>
+	 * <ul>
+	 * <li>
+	 * First <em>for</em> loop always get the first item<br/>
+	 * - If it is over max weight, it will go to next item of first loop<br/>
+	 * - If it is within max weight limit, it will then proceed to Second loop
+	 * </li>
+	 * <li>
+	 * Second <em>for</em> loop is the 2nd item that will increment for that permutation<br/>
+	 * - If its weight + current item is over the max weight it will call Third loop to traverse to all items<br/>
+	 * - If its weight + current item is within the max weight, this will be added then it will call Third loop to traverse to all items<br/>
+	 * </li>
+	 * <li>
+	 * Third <em>for</em> loop traverses to remaining items after the item of Second loop
+	 * </li>
+	 * </ul>
+	 */
 	private static String getPriciestPossiblePackage(List<Item> list) throws APIIndexException {
 
 		float currentPriciestPackage = 0;
@@ -76,6 +98,7 @@ public class PackageSelector {
 		return prepareReturnPackageList(currentPriciestPackageObjectList);
 	}
 
+	// Formatting purposes: remove last comma or make return as dash.
 	private static String prepareReturnPackageList(String currentPriciestPackageObjectList) {
 		if (StringUtils.isEmpty(currentPriciestPackageObjectList)) {
 			return "-";
@@ -88,7 +111,8 @@ public class PackageSelector {
 	private static float preparePackageMaxWeight(PackageLine packageLine) {
 		boolean isOver = packageLine.getMaxWeightAllowed() > PropertyConstants.PACKAGE_MAX_WEIGHT;
 		if (isOver) {
-			logger.warn("Package line has over 100 weight: " + packageLine.getMaxWeightAllowed() + " | Will set to 100.0");
+			logger.warn(
+					"Package line has over 100 weight: " + packageLine.getMaxWeightAllowed() + " | Will set to 100.0");
 			return PropertyConstants.PACKAGE_MAX_WEIGHT;
 		} else {
 			return packageLine.getMaxWeightAllowed();
@@ -98,12 +122,14 @@ public class PackageSelector {
 	// Constrain 3: Max weight and cost of an item is <= 100
 	private static boolean isItemAllowed(Item item) {
 		boolean isAllowed = false;
-		if (item != null && item.getPrice() <= PropertyConstants.ITEM_MAX_PRICE
-				&& item.getWeight() <= PropertyConstants.ITEM_MAX_WEIGHT) {
-			isAllowed = true;
+		if (item != null) {
+			if (item.getPrice() <= PropertyConstants.ITEM_MAX_PRICE
+					&& item.getWeight() <= PropertyConstants.ITEM_MAX_WEIGHT) {
+				isAllowed = true;
 
-		} else {
-			logger.warn("Item has over 100 weight / price: " + item.toString());
+			} else {
+				logger.warn("Item has over 100 weight / price: " + item.toString());
+			}
 		}
 		return isAllowed;
 	}

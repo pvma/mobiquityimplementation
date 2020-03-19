@@ -1,4 +1,4 @@
-# mobiquityimplementation
+# Packer Implementation
 A parser of items for packages that get the most priciest based from a list that can be put into a package.
 
 ## Prerequsites
@@ -7,12 +7,12 @@ A parser of items for packages that get the most priciest based from a list that
 3. Eclipse IDE 2020-03
 
 ## Installation
-1. Clone or download ZIP File
+1. Clone or download ZIP File here `git@github.com:pvma/packerimplementation.git`
 2. Import as existing source in Eclipse IDE
 
 ## How to Test
 - Open `src/main/test/*.java` and run to see what it does
-- Primarily this is used to parse a file, but you can use the test classes to get your needed inrformation
+- Primarily this is used to parse a file, but you can use the test classes to get your needed information
 
 #### Example Input
 ```
