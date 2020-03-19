@@ -34,3 +34,4 @@ A parser of items for packages that get the most priciest based from a list that
 - File input needs to be UTF-8
 - Output is String
 - Jar file generated name is packerimplementation
+- Log4j version is for improvement
