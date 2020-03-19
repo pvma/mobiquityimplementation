@@ -13,11 +13,12 @@ import com.mobiquity.exception.APIWeightException;
 import com.mobiquity.model.Item;
 import com.mobiquity.model.PackageLine;
 
-public class LineParser {
+public class LineParser extends Logging {
 
 	static final Logger logger = Logger.getLogger(LineParser.class);
 
-	// Return a wrapper object of the max weight allowed plus the list of items to be processed
+	// Return a wrapper object of the max weight allowed plus the list of items to
+	// be processed
 	public static PackageLine parsePackageLine(String line) throws APIWeightException {
 		float maxPackageWeithAllowed = 0;
 		List<Item> items = new ArrayList<Item>();
@@ -41,11 +42,13 @@ public class LineParser {
 	// Return the list of object of an item
 	// Item example (2,88.62,€98) will be converted as the Item Object
 	public static List<Item> splitLinePackages(String str) {
+		initJunitProperties();
 		return Stream.of(str.trim().split(" ")).map(elem -> {
 			elem = elem.replace("(", "").replace(")", "");
 			String[] values = elem.split(",");
 			try {
-				return new Item(Integer.parseInt(values[0]), Float.parseFloat(values[1]), Float.parseFloat(values[2].substring(1)));
+				return new Item(Integer.parseInt(values[0]), Float.parseFloat(values[1]),
+						Float.parseFloat(values[2].substring(1)));
 			} catch (Throwable e) {
 				logger.warn("Error Parsing Item = |" + str + "|, item will be disregarded");
 				return null;

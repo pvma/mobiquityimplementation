@@ -60,5 +60,16 @@ public class Packer_Test {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void testInput_constrain_3() {
+		String filePath = "src/main/test/resources/example_input_03";
+		try {
+			String actual = Packer.pack(filePath);
+			assertEquals("4\n-\n2,7\n5,8,9,14,15\n-\n4,37,38,39,42\n-\n2,7\n5,8,9,14,15\n-\n2\n-\n2,7\n5,8,9,14,15\n1,2,3,4,5,6,7,12,13,14,18,20,30\n4\n-\n2,6\n5,8,9,14,15\n-\n", actual);
+		} catch (APIException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

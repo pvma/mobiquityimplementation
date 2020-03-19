@@ -10,13 +10,14 @@ import com.mobiquity.exception.APIIndexException;
 import com.mobiquity.model.Item;
 import com.mobiquity.model.PackageLine;
 
-public class PackageSelector {
+public class PackageSelector extends Logging {
 
 	static final Logger logger = Logger.getLogger(PackageSelector.class);
 
 	private static float maxAllowedWeigth;
 
 	public static String getPackage(PackageLine packageLine) throws APIIndexException {
+		initJunitProperties();
 		PackageSelector.maxAllowedWeigth = preparePackageMaxWeight(packageLine); // Constrain 1
 		return getPriciestPossiblePackage(packageLine.getItems());
 	}

@@ -14,6 +14,10 @@ A parser of items for packages that get the most priciest based from a list that
 - Open `src/main/test/*.java` and run to see what it does
 - Primarily this is used to parse a file, but you can use the test classes to get your needed information
 
+## Logging
+- Currently in INFO mode.
+- Change INFO into DEBUG: `log4j.rootLogger=INFO, stdout` if need to see debug flow logs in `~src/main/java/resources/log4j.properties`
+
 #### Example Input
 ```
 81 : (1,53.38,€45) (2,88.62,€98) (3,78.48,€3) (4,72.30,€76) (5,30.18,€9) (6,46.34,€48)
