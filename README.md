@@ -6,9 +6,14 @@ A parser of items for packages that get the most priciest based from a list that
 2. Maven 3
 3. Eclipse IDE 2020-03
 
-## Installation
+## Development
+##### Local Setup
 1. Clone or download ZIP File here `git@github.com:pvma/packerimplementation.git`
 2. Import as existing source in Eclipse IDE
+
+##### Building in Maven
+- Run `$ mvn clean install` to build jar
+- Run to skip test: `$mvn clean install -DskipTests` 
 
 ## How to Test
 - Open `src/main/test/*.java` and run to see what it does
